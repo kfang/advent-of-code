@@ -28,29 +28,41 @@ const grid = fs
         new Grid(),
     )
 
-// console.log(grid.countNoPositions(2000000));
+
+function checkSensors(point: number[], exclude: number): boolean {
+    let idx = 0;
+    for (const s of grid.sensors) {
+        if (idx !== exclude) {
+            const isInRange = s.isInRange(point);
+            if (isInRange) {
+                return true;
+            }
+        }
+        idx++;
+    }
+
+    return false;
+}
+
 
 const min = 0;
 const max = 4_000_000;
 // const max = 20;
+
+let point: number[] = [];
 grid.sensors.forEach((s,  idx) => {
-    s.calcBoundaryPoints(min, max);
-    console.log("DONE with " + idx);
+    const points = s.calcBoundaryPoints(min, max);
+    points.forEach(p => {
+        const check = checkSensors(p, idx);
+        
+        if (check === false) {
+            point = p;
+        }
+    })
+
+    console.log("DONE with " + idx, points.length);
 });
 
-const points = grid.sensors.reduce((res,  s) => {
-    return res + s.boundaryPoints.length;
-}, 0);
-console.log(points);
 
-
-for (let y = min; y <= max; y++) {
-    const res = grid.getPossiblePositions(y, min, max);
-    if (y % 1_000 === 0) {
-        console.log(`crossed ${y}`);
-    }
-
-    if (res.length > 0) {
-        console.log(`([${res}], ${y})`);
-    }
-}
+const p2 = (point[0] * 4000000) + point[1];
+console.log(p2);

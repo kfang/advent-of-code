@@ -16,25 +16,45 @@ export class Sensor {
         this.boundaryPoints = [];
     }
 
-    public calcBoundaryPoints(min: number, max: number): string[] {
+    public isInRange(point: number[]): boolean {
+        const dis =  Math.abs(point[0] - this.x) + Math.abs(point[1] - this.y);
+        return dis <= this.distToBeacon;
+    }
+
+    public calcBoundaryPoints(min: number, max: number): number[][] {
 
         const minX = this.x - this.distToBeacon - 1;
         const maxX = this.x + this.distToBeacon + 1;
 
         const points = [];
         for (let i = Math.max(min, minX); i <= this.x; i++) {
-            points.push(`(${i}, ${i + (this.y - minX)})`)
-            points.push(`(${i}, ${-i + (this.y + minX)})`)
+            const y0 = i + (this.y - minX);
+            const y1 = -i + (this.y + minX);
+
+            if (y0 >= min && y0 <= max) {
+                points.push([i, y0]);
+            }
+
+            if (y1 >= min && y1 <= max) {
+                points.push([i, y1]);
+            }
         }
 
 
         for (let i = this.x; i <= Math.min(max, maxX); i++) {
-            points.push(`(${i}, ${-i + (this.y + maxX)})`)
-            points.push(`(${i}, ${i + (this.y - maxX)})`)
+            const y0 = i + (this.y + maxX);
+            const y1 = -i + (this.y - maxX);
+
+            if (y0 >= min && y0 <= max) {
+                points.push([i, y0]);
+            }
+
+            if (y1 >= min && y1 <= max) {
+                points.push([i, y1]);
+            }
         }
 
-        this.boundaryPoints = points;
-        return this.boundaryPoints;
+        return points;
     }
 
     public coveredOnRow(y: number, minX?: number, maxX?: number): number[]  {
