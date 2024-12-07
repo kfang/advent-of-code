@@ -91,7 +91,6 @@ fn find_operators(ops: &Vec<Operators>, target: i64, curr_total: i64, elems: &Ve
         );
 
         if is_valid {
-            println!("{:?}", calibration);
             total += calibration.result;
         }
     };
@@ -117,7 +116,6 @@ pub fn day_7_2(file_path: &str) -> i64 {
         );
 
         if is_valid {
-            println!("{:?}", calibration);
             total += calibration.result;
         }
     };
@@ -153,6 +151,6 @@ mod tests {
     fn day_7_2_run() {
         let result = day_7_2("inputs/d7_1.txt");
         println!("{result}");
-        assert_eq!(result, 11387);
+        assert_eq!(result, 91377448644679);
     }
 }
