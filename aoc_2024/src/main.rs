@@ -6,6 +6,7 @@ pub mod d5;
 pub mod d6;
 pub mod d7;
 pub mod d8;
+pub mod d9;
 
 fn main() {
     println!("Hello World!");
