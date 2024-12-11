@@ -7,7 +7,6 @@ enum Block {
 
 #[derive(Debug)]
 struct FileInfo {
-    file_id: u64,
     start_idx: usize,
     block_count: i32,
 }
@@ -26,17 +25,6 @@ struct Disk {
 }
 
 impl Disk {
-    fn print(&self) {
-        self.blocks.iter().for_each(|block| {
-            match block {
-                Block::File(file_id) => { print!("{file_id} ") },
-                Block::FreeSpace     => { print!(". ") },
-            };
-        });
-        print!("(last_id = {:?})", self.last_file_idx);
-        println!("");
-    }
-
     fn swap(&mut self, idx0: usize, idx1: usize) {
         self.blocks.swap(idx0, idx1);
 
@@ -81,7 +69,7 @@ fn read_disk(file_path: &str) -> Disk {
             
             if idx % 2 == 0 {
                 let file_id = idx as u64 / 2;
-                let file_info = FileInfo { file_id, start_idx, block_count };
+                let file_info = FileInfo { start_idx, block_count };
                 files.push(file_info);
                 
                 for _c in 0..block_count {
