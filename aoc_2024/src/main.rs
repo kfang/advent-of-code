@@ -8,8 +8,9 @@ pub mod d7;
 pub mod d8;
 pub mod d9;
 pub mod d10;
+pub mod d11;
 
 fn main() {
-    println!("Hello World!");
+    d11::day_11_2("inputs/d11_1.txt");
 }
 
